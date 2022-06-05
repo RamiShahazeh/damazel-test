@@ -13,15 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('product_images', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name', 255);
-            $table->string('last_name', 255);
-            $table->string('email', 500)->unique();
-            $table->string('profile_image', 500);
-            $table->string('password', 255);
-            $table->rememberToken();
-            $table->timestamps();
+
+            $table->foreignId('product_id');
+            $table->foreign('product_id')
+            ->references('id')->on('products')
+            ->onDelete('cascade');
+
+            $table->string('image_url');
+            $table->integer('sort')->default(1);
         });
     }
 
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('product_images');
     }
 };

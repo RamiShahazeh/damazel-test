@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Requests\ImportData;
+namespace App\Http\Requests\Auth;
 
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Http\Requests\JsonRequest;
 
-class ImportTxtDataRequest extends JsonRequest
+class LoginRequest extends JsonRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +24,8 @@ class ImportTxtDataRequest extends JsonRequest
     public function rules()
     {
         return [
-            'text_data' => 'required|file|mimes:txt|max:100000',
+            'email' => 'required|email|exists:users,email|max:255|min:1|regex:/(.+)@(.+)\.(.+)/i',
+            'password' => 'required|string|max:255|min:8',
         ];
     }
 
